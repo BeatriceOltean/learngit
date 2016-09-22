@@ -36,7 +36,8 @@ To complete this tutorial you need the following:
     ```
     azure config mode arm
     ```
-## Set your Azure accoun and subscription 
+
+## Set your Azure account and subscription 
 
 1. At command prompt login by typing the following command
     ```
@@ -111,3 +112,4 @@ To further explore the capabilities of IoT Hub, see:
 [lnk-dmui]: iot-hub-device-management-ui-sample.md
 [lnk-gateway]: iot-hub-linux-gateway-sdk-simulated-device.md
 [lnk-portal]: iot-hub-manage-through-portal.md
+
