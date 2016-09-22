@@ -27,11 +27,13 @@ You can use Azure Command Line Interface is a to create and manage Azure IoT hub
 
 To complete this tutorial you need the following:
 
-- An active Azure account. <br/>You can create a free trial account in just a couple of minutes. For details, see [Azure Free Trial][lnk-free-trial].
-- [Azure CLI 0.10.4][lnk-CLI-install] or later. If you already have Azure CLI you can validate the current version at the command prompt with the following command: 
+- An active Azure account. You can create an [Azure Free Trial][lnk-free-trial] account in just a couple of minutes.
+- [Azure CLI 0.10.4][lnk-CLI-install] or later. If you already have Azure CLI you can validate the current version at the command prompt with the following command:
+
     ```
     azure --version
     ```
+
 > [AZURE.NOTE] Azure has two different deployment models for creating and working with resources:  [Resource Manager and classic](../resource-manager-deployment-model.md). The Azure CLI must be in Azure Resource Manager mode:
     ```
     azure config mode arm
@@ -40,12 +42,13 @@ To complete this tutorial you need the following:
 ## Set your Azure account and subscription 
 
 1. At command prompt login by typing the following command
+
     ```
     azure login
     ```
 That will provide in command line the web browser and the code to authenticate.
 
-2. If you have multiple Azure subscriptions, connecting to Azure will grant access to all subscriptions associated with your credentials. You can view the subscriptions, as well as which one is the default, using the command:
+2. If you have multiple Azure subscriptions, connecting to Azure will grant access to all subscriptions associated with your credentials. You can view the subscriptions, as well as which one is the default, using the command
     ```
     azure account list 
     ```
@@ -63,38 +66,38 @@ That will provide in command line the web browser and the code to authenticate.
 
 
 ## Create and IoT Hub
+
 Required parameters:
- azure iothub create <resource-group> <name> <location> <sku-name> <units>  
 
-	- resource group name   (case insensitive alphanumeric, underscore and hyphen, 1-64 length)
-	- name (The name of the IoT hub to be created. The format is case insensitive alphanumeric, underscore and hyphen, 3-50 length )
-	- location (The location (azure region/datacenter) where the IoT hub will be provisioned.
-	- sku-name (The name of the sku, one of: [F1, S1, S2, S3] etc. For the latest full list refer to the pricing page for IoT Hub.
-    - units ( The number of provisioned units. Range : F1 [1-1] : S1, S2 [1-200] : S3 [1-10]. IoT Hub units are based on your total message count and the number of devices you want to connect.)
-
+```
+ azure iothub create -g <resource-group> -n <name> -l <location> -s <sku-name> -u <units>  
+	- <resourceGroup> The resource group name (case insensitive alphanumeric, underscore and hyphen, 1-64 length)
+	- <name> (The name of the IoT hub to be created. The format is case insensitive alphanumeric, underscore and hyphen, 3-50 length )
+	- <location> (The location (azure region/datacenter) where the IoT hub will be provisioned.
+	- <sku-name> (The name of the sku, one of: [F1, S1, S2, S3] etc. For the latest full list refer to the pricing page for IoT Hub.
+    - <units> (The number of provisioned units. Range : F1 [1-1] : S1, S2 [1-200] : S3 [1-10]. IoT Hub units are based on your total message count and the number of devices you want to connect.)
+```
+To see all the parameters available for creation you can use the help command in command prompt
+```
+	azure iothub create -h 
+```
 Quick example:
 
- To create an IoT Hub called **exampleIoTHubName** you simply run the following command:
-    ```
+ To create an IoT Hub called **exampleIoTHubName** in the resource group you created at step 3 simply run the following command
+```
     azure iothub create -g exampleResourceGroup -n exampleIoTHubName -l westus -k s1 -u 1
-    ```
-Other parameters:
-To see all the parameters available for creation you can use the help command in command prompt
-	azure iothub create -h 
+```
 
-> [AZURE.NOTE] This CLI command creates an S1 Standard IoT Hub for which you are billed. You can delete the IoT hub using
-    ```
+> [AZURE.NOTE] This CLI command creates an S1 Standard IoT Hub for which you are billed. You can delete the IoT hub **exampleIoTHubName** using following command 
+```
     azure iothub delete -g exampleResourceGroup -n exampleIoTHubName
-    ```
+```
 ## Next steps
 To learn more about developing for IoT Hub, see the following:
 - [IoT Hub SDKs][lnk-sdks]
 
 To further explore the capabilities of IoT Hub, see:
 
-- [Designing your solution][lnk-design]
-- [Exploring device management using the sample UI][lnk-dmui]
-- [Simulating a device with the Gateway SDK][lnk-gateway]
 - [Using the Azure Portal to manage IoT Hub][lnk-portal]
 
 <!-- Links -->
@@ -108,8 +111,4 @@ To further explore the capabilities of IoT Hub, see:
 
 [lnk-sdks]: iot-hub-sdks-summary.md
 
-[lnk-design]: iot-hub-guidance.md
-[lnk-dmui]: iot-hub-device-management-ui-sample.md
-[lnk-gateway]: iot-hub-linux-gateway-sdk-simulated-device.md
 [lnk-portal]: iot-hub-manage-through-portal.md
-
