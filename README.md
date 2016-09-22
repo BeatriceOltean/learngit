@@ -51,7 +51,9 @@ That will provide in command line the web browser and the code to authenticate.
 ```
     azure account list 
 ```
+
     To set the subscription context under which you want to run the rest of the commands use
+
 ```
     azure account set <subscription name>
 ```
@@ -91,6 +93,8 @@ Quick example:
 ```
     azure iothub delete -g exampleResourceGroup -n exampleIoTHubName
 ```
+
+
 ## Next steps
 To learn more about developing for IoT Hub, see the following:
 - [IoT Hub SDKs][lnk-sdks]
