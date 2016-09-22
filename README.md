@@ -19,6 +19,7 @@
 # Create an IoT hub using CLI
 
 To Add here other tabs for creating IoT Hub via Portal, PowerShell, REST
+
 [AZURE.INCLUDE iot-hub-resource-manager-selector]
 
 ## Introduction
@@ -29,38 +30,36 @@ To complete this tutorial you need the following:
 
 - An active Azure account. You can create an [Azure Free Trial][lnk-free-trial] account in just a couple of minutes.
 - [Azure CLI 0.10.4][lnk-CLI-install] or later. If you already have Azure CLI you can validate the current version at the command prompt with the following command:
-
-    ```
+```
     azure --version
-    ```
+```
 
 > [AZURE.NOTE] Azure has two different deployment models for creating and working with resources:  [Resource Manager and classic](../resource-manager-deployment-model.md). The Azure CLI must be in Azure Resource Manager mode:
-    ```
+```
     azure config mode arm
-    ```
+```
 
 ## Set your Azure account and subscription 
 
 1. At command prompt login by typing the following command
-
-    ```
+```
     azure login
-    ```
+```
 That will provide in command line the web browser and the code to authenticate.
 
 2. If you have multiple Azure subscriptions, connecting to Azure will grant access to all subscriptions associated with your credentials. You can view the subscriptions, as well as which one is the default, using the command
-    ```
+```
     azure account list 
-    ```
+```
     To set the subscription context under which you want to run the rest of the commands use
-    ```
+```
     azure account set <subscription name>
-    ```
+```
 
 3. If you do not have a resource group you can create one named **exampleResourceGroup** 
-    ```
+```
     azure group create -n exampleResourceGroup -l westus
-     ```
+```
 
 > [AZURE.TIP] The article [Use the Azure CLI to manage Azure resources and resource groups][lnk-CLI-arm] provides more information about how to use Azure CLI to manage Azure resources. 
 
@@ -83,7 +82,7 @@ To see all the parameters available for creation you can use the help command in
 ```
 Quick example:
 
- To create an IoT Hub called **exampleIoTHubName** in the resource group you created at step 3 simply run the following command
+ To create an IoT Hub called **exampleIoTHubName** in the resource group **exampleResourceGroup** simply run the following command
 ```
     azure iothub create -g exampleResourceGroup -n exampleIoTHubName -l westus -k s1 -u 1
 ```
