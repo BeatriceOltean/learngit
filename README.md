@@ -68,9 +68,12 @@ The ordered changes are preserved by clicking Save command.
 
 
 <!-- Images -->
-[20]: ./media/ip-filter-add-rule.png
-[21]: ./media/
-[22]: ./media/
+[20]: ./media/ip-filter-default.png
+[21]: ./media/ip-filter-add-rule.png
+[23]: ./media/ip-filter-save-new-rule.png
+[24]: ./media/ip-filter-delete-rule.png
+[25]: ./media/p-filter-rule-order.png 
+
 
 <!-- Links -->
 
