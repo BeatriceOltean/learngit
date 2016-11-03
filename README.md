@@ -1,117 +1,83 @@
 <properties
-	pageTitle="Create an IoT Hub using CLI | Microsoft Azure"
-	description="Follow this article to create an IoT Hub using the Azure Command Line Interface."
+	pageTitle="IoT Hub - IP Filter | Microsoft Azure"
+	description="Follow this tutorial to learn how to blacklist or whitelist certain IP addresses for Azure IoT Hub."
 	services="iot-hub"
-	documentationCenter=".net"
-	authors="BeatriceOltean"
+	authors="fsautomata"
 	manager="timlt"
 	editor=""/>
 
 <tags
      ms.service="iot-hub"
-     ms.devlang="multiple"
+     ms.devlang="dotnet"
      ms.topic="article"
      ms.tgt_pltfrm="na"
      ms.workload="na"
-     ms.date="09/21/2016"
-     ms.author="boltean"/>
+     ms.date="06/23/2016"
+     ms.author="BeatriceOltean"/>
 
-# Create an IoT hub using CLI
-
-To Add here other tabs for creating IoT Hub via Portal, PowerShell, REST
-
-[AZURE.INCLUDE iot-hub-resource-manager-selector]
+# IP Filter
 
 ## Introduction
 
-You can use Azure Command Line Interface is a to create and manage Azure IoT hubs programmatically. This article shows you how to use a Azure CLI to create an IoT hub.
+Security is an important aspect of an IoT solution based on Azure IoT Hub and sometimes customers would like to blacklist or whitelist certain IP addresses. By default an IoT hub will allow traffic from all the IP addresses. The IP Filter feature allows customers to configure rules for rejecting or accepting traffic from specific IPv4 addresses. 
+There are two case scenarios when closing the IoT Hub endpoint for certain IP addresses is useful: 
+- When IoT Hub is designed to receive traffic only from an allowed range of IP addresses and reject any other IP addresses. A practical example is using the IoT Hub with [Azure Express Route] to create private connections between IoT Hub and on premises infrastructure.
+- Another use case for IP filter is to reject traffic from IP addresses that have been identified as suspicious by the IoT Hub administrator.
 
-To complete this tutorial you need the following:
+The IP filter rules are applied at the IoT Hub service level meaning any time a device is connecting on any supported protocols (currently AMQP, MQTT, AMQP/WS, HTTP/1). 
+Any application from an IP address that matches a rejecting IP rule in the IoT Hub will receive an unauthorized 401 status code and description without specific mention of the IP rule in the message.
 
-- An active Azure account. You can create an [Azure Free Trial][lnk-free-trial] account in just a couple of minutes.
-- [Azure CLI 0.10.4][lnk-CLI-install] or later. If you already have Azure CLI you can validate the current version at the command prompt with the following command:
-```
-    azure --version
-```
+## Default state
+By default the IP Filter grid is empty meaning that all IP addresses are accepted. This is the equivalent of having a rule that accepts 0.0.0.0/0 IP range. 
 
-> [AZURE.NOTE] Azure has two different deployment models for creating and working with resources:  [Resource Manager and classic](../resource-manager-deployment-model.md). The Azure CLI must be in Azure Resource Manager mode:
-```
-    azure config mode arm
-```
+![ip-filter-default.png]
+ 
+## Adding or editing an IP Filter rules for IoT Hub
 
-## Set your Azure account and subscription 
+Adding an IP filter rule will prompt the user to introduce the following values: 
 
-1. At command prompt login by typing the following command
-```
-    azure login
-```
-That will provide in command line the web browser and the code to authenticate.
+- Define a **IP filter rule name** that must be unique, case insensitive  that is an alphanumeric string up to 128 characters long. Only ASCII 7-bit alphanumeric chars + {'-', ':', '/', '\', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';',  '''} are accepted
+- Select a specific **action** for rejecting or accepting the IP rule. 
+- Define one **individual IPv4** or one **CIDR-notation mask**. For example the 192.168.100.0/22 represents the 1024 IPv4 addresses from 192.168.100.0 to 192.168.103.255. 
 
-2. If you have multiple Azure subscriptions, connecting to Azure will grant access to all subscriptions associated with your credentials. You can view the subscriptions, as well as which one is the default, using the command
-```
-    azure account list 
-```
+![ip-filter-add-rule.png]
 
-    To set the subscription context under which you want to run the rest of the commands use
+After creating and saving the rule the user will be prompted with an alert notifying that the update is in progress
 
-```
-    azure account set <subscription name>
-```
+![ip-filter-save-new-rule.png]
 
-3. If you do not have a resource group you can create one named **exampleResourceGroup** 
-```
-    azure group create -n exampleResourceGroup -l westus
-```
+User can edit an existing rule by double clicking on the row containing the rule. 
 
-> [AZURE.TIP] The article [Use the Azure CLI to manage Azure resources and resource groups][lnk-CLI-arm] provides more information about how to use Azure CLI to manage Azure resources. 
+## Deleting IP rule
+Deleting rules is possible by selecting one or more rules in the grid and using the Delete icon in the menu. 
 
+![ip-filter-delete-rule.png]
 
-## Create and IoT Hub
+## Rule evaluation 
 
-Required parameters:
+The rules are applied in order; the first rule that matches the IP decides the action. 
+For example if the user wants to accept the 192.168.100.0/22 and reject everything else the grid would have a first rule that accepts the 192.168.100.0/22 followed by a rule that rejects all addresses 0.0.0.0/0. By adding a last rule that rejects 0.0.0.0/0 the user changes the default behavior to blacklist. 
 
-```
- azure iothub create -g <resource-group> -n <name> -l <location> -s <sku-name> -u <units>  
-	- <resourceGroup> The resource group name (case insensitive alphanumeric, underscore and hyphen, 1-64 length)
-	- <name> (The name of the IoT hub to be created. The format is case insensitive alphanumeric, underscore and hyphen, 3-50 length )
-	- <location> (The location (azure region/datacenter) where the IoT hub will be provisioned.
-	- <sku-name> (The name of the sku, one of: [F1, S1, S2, S3] etc. For the latest full list refer to the pricing page for IoT Hub.
-    - <units> (The number of provisioned units. Range : F1 [1-1] : S1, S2 [1-200] : S3 [1-10]. IoT Hub units are based on your total message count and the number of devices you want to connect.)
-```
-To see all the parameters available for creation you can use the help command in command prompt
-```
-	azure iothub create -h 
-```
-Quick example:
+Changing the priority of the IP rule is possible by clicking on the vertical dots at the beginning of the rule followed by drag and drop to the desired order in the grid.  
 
- To create an IoT Hub called **exampleIoTHubName** in the resource group **exampleResourceGroup** simply run the following command
-```
-    azure iothub create -g exampleResourceGroup -n exampleIoTHubName -l westus -k s1 -u 1
-```
-
-> [AZURE.NOTE] This CLI command creates an S1 Standard IoT Hub for which you are billed. You can delete the IoT hub **exampleIoTHubName** using following command 
-```
-    azure iothub delete -g exampleResourceGroup -n exampleIoTHubName
-```
-
+![ip-filter-rule-order.png]
 
 ## Next steps
-To learn more about developing for IoT Hub, see the following:
-- [IoT Hub SDKs][lnk-sdks]
 
-To further explore the capabilities of IoT Hub, see:
+In this tutorial, you learned how to send and receive cloud-to-device messages. 
 
-- [Using the Azure Portal to manage IoT Hub][lnk-portal]
+To see examples of complete end-to-end solutions that use IoT Hub, see [Azure IoT Suite].
+
+To learn more about developing solutions with IoT Hub, see the [IoT Hub Developer Guide].
+
+<!-- Images -->
+[20]: ./media/ip-filter-add-rule.png
+[21]: ./media/
+[22]: ./media/
 
 <!-- Links -->
-[lnk-free-trial]: https://azure.microsoft.com/pricing/free-trial/
-[lnk-azure-portal]: https://portal.azure.com/
-[lnk-status]: https://azure.microsoft.com/status/
-[lnk-CLI-install]: ../xplat-cli-install.md
-[lnk-rest-api]: https://msdn.microsoft.com/library/mt589014.aspx
-[lnk-azure-rm-overview]: ../resource-group-overview.md
-[lnk-CLI-arm]: ../xplat-cli-azure-resource-manager.md
 
-[lnk-sdks]: iot-hub-sdks-summary.md
 
-[lnk-portal]: iot-hub-manage-through-portal.md
+
+[IoT Hub Developer Guide]: iot-hub-devguide.md
+[Azure Express Route]:  https://azure.microsoft.com/en-us/documentation/articles/expressroute-faqs/#supported-services
