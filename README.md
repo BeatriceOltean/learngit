@@ -19,9 +19,10 @@
 
 ## Introduction
 
-Security is an important aspect of an IoT solution based on Azure IoT Hub and sometimes customers would like to blacklist or whitelist certain IP addresses. By default an IoT hub will allow traffic from all the IP addresses. The IP Filter feature allows customers to configure rules for rejecting or accepting traffic from specific IPv4 addresses. 
+Security is an important aspect of an IoT solution based on Azure IoT Hub and sometimes customers need to blacklist or whitelist certain IP addresses. The IP Filter feature enables them to configure rules for rejecting or accepting traffic from specific IPv4 addresses.
+
 There are two case scenarios when closing the IoT Hub endpoint for certain IP addresses is useful: 
-- When IoT Hub is designed to receive traffic only from an allowed range of IP addresses and reject any other IP addresses. A practical example is using the IoT Hub with [Azure Express Route] to create private connections between IoT Hub and on premises infrastructure.
+- When IoT Hub is designed to receive traffic only from an allowed range of IP addresses and reject everything else. A practical example is using the IoT Hub with [Azure Express Route] to create private connections between IoT Hub and on premises infrastructure.
 - Another use case for IP filter is to reject traffic from IP addresses that have been identified as suspicious by the IoT Hub administrator.
 
 The IP filter rules are applied at the IoT Hub service level meaning any time a device is connecting on any supported protocols (currently AMQP, MQTT, AMQP/WS, HTTP/1). 
@@ -36,7 +37,7 @@ By default the IP Filter grid is empty meaning that all IP addresses are accepte
 
 Adding an IP filter rule will prompt the user to introduce the following values: 
 
-- Define a **IP filter rule name** that must be unique, case insensitive  that is an alphanumeric string up to 128 characters long. Only ASCII 7-bit alphanumeric chars + {'-', ':', '/', '\', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';',  '''} are accepted
+- Define a **IP filter rule name** that must be unique, case insensitive, alphanumeric string up to 128 characters long. Only ASCII 7-bit alphanumeric chars + {'-', ':', '/', '\', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';',  '''} are accepted
 - Select a specific **action** for rejecting or accepting the IP rule. 
 - Define one **individual IPv4** or one **CIDR-notation mask**. For example the 192.168.100.0/22 represents the 1024 IPv4 addresses from 192.168.100.0 to 192.168.103.255. 
 
@@ -45,6 +46,8 @@ Adding an IP filter rule will prompt the user to introduce the following values:
 After creating and saving the rule the user will be prompted with an alert notifying that the update is in progress
 
 ![ip-filter-save-new-rule.png]
+
+Add command will be d=isabled after reaching the maximum of 10 IP filter rules. 
 
 User can edit an existing rule by double clicking on the row containing the rule. 
 
@@ -62,13 +65,6 @@ Changing the priority of the IP rule is possible by clicking on the vertical dot
 
 ![ip-filter-rule-order.png]
 
-## Next steps
-
-In this tutorial, you learned how to send and receive cloud-to-device messages. 
-
-To see examples of complete end-to-end solutions that use IoT Hub, see [Azure IoT Suite].
-
-To learn more about developing solutions with IoT Hub, see the [IoT Hub Developer Guide].
 
 <!-- Images -->
 [20]: ./media/ip-filter-add-rule.png
