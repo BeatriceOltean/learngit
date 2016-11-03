@@ -33,13 +33,13 @@ By default the IP Filter grid is empty meaning that all IP addresses are accepte
 
 ![ip-filter-default.png]
  
-## Adding or editing an IP Filter rules for IoT Hub
+## Adding or editing an IP filter rules for IoT Hub
 
 Adding an IP filter rule will prompt the user to introduce the following values: 
 
 - Define a **IP filter rule name** that must be unique, case insensitive, alphanumeric string up to 128 characters long. Only ASCII 7-bit alphanumeric chars + {'-', ':', '/', '\', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';',  '''} are accepted
 - Select a specific **action** for rejecting or accepting the IP rule. 
-- Define one **individual IPv4** or one **CIDR-notation mask**. For example the 192.168.100.0/22 represents the 1024 IPv4 addresses from 192.168.100.0 to 192.168.103.255. 
+- Define one **individual IPv4** or one **CIDR-notation mask**. For example, the 192.168.100.0/22 represents the 1024 IPv4 addresses from 192.168.100.0 to 192.168.103.255. 
 
 ![ip-filter-add-rule.png]
 
@@ -47,7 +47,7 @@ After creating and saving the rule the user will be prompted with an alert notif
 
 ![ip-filter-save-new-rule.png]
 
-Add command will be d=isabled after reaching the maximum of 10 IP filter rules. 
+Add option will be disabled after reaching the **maximum of 10 IP filter rules**.
 
 User can edit an existing rule by double clicking on the row containing the rule. 
 
@@ -56,12 +56,13 @@ Deleting rules is possible by selecting one or more rules in the grid and using 
 
 ![ip-filter-delete-rule.png]
 
-## Rule evaluation 
+## IP rule evaluation 
 
 The rules are applied in order; the first rule that matches the IP decides the action. 
 For example if the user wants to accept the 192.168.100.0/22 and reject everything else the grid would have a first rule that accepts the 192.168.100.0/22 followed by a rule that rejects all addresses 0.0.0.0/0. By adding a last rule that rejects 0.0.0.0/0 the user changes the default behavior to blacklist. 
 
-Changing the priority of the IP rule is possible by clicking on the vertical dots at the beginning of the rule followed by drag and drop to the desired order in the grid.  
+Changing the priority of the IP rule is possible by clicking on the vertical dots at the beginning of the rule followed by drag and drop to the desired order in the grid.
+The ordered changes are preserved by clicking Save command.
 
 ![ip-filter-rule-order.png]
 
